@@ -71,6 +71,7 @@ public class HomeController {
             v1.setSalario(8500.0);
             v1.setFecha(sdf.parse("08-02-2019"));
             v1.setDestacado(1);
+            v1.setImagen("empresa1.png");
 
             Vacante v2 = new Vacante();
             v2.setId(2);
@@ -79,6 +80,7 @@ public class HomeController {
             v2.setSalario(12000.0);
             v2.setFecha(sdf.parse("09-02-2019"));
             v2.setDestacado(0);
+            v2.setImagen("empresa2.png");
 
             Vacante v3 = new Vacante();
             v3.setId(3);
@@ -95,6 +97,7 @@ public class HomeController {
             v4.setSalario(7500.0);
             v4.setFecha(sdf.parse("11-02-2019"));
             v4.setDestacado(1);
+            v4.setImagen("empresa3.png");
 
             lista.add(v1);
             lista.add(v2);

@@ -1,5 +1,8 @@
 package net.afrivera.controller;
 
+import net.afrivera.model.Vacante;
+import net.afrivera.service.IVacanteService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -11,6 +14,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 @RequestMapping("/vacantes")
 public class VacantesController {
 
+    @Autowired
+    private IVacanteService serviceVacante;
+
     @GetMapping("/delete")
     public String eliminar(@RequestParam("id") int idVacante, Model model){
         model.addAttribute("idVacante", idVacante);
@@ -20,9 +26,10 @@ public class VacantesController {
 
     @GetMapping("/view/{id}")
     public String verDetalle(@PathVariable("id") int idVacante, Model model){
-        model.addAttribute("idVacante", idVacante);
-        System.out.println("id vacante: " + idVacante);
+        Vacante vacante = serviceVacante.buscarPorId(idVacante);
+        model.addAttribute("vacante", vacante);
+        System.out.println("vacante: " + vacante);
         //TODO: Buscar los detalles de la vacante en la bd
-        return "vacantes/detalle";
+        return "detalle";
     }
 }

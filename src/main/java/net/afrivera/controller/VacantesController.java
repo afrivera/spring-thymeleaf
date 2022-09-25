@@ -3,9 +3,14 @@ package net.afrivera.controller;
 import net.afrivera.model.Vacante;
 import net.afrivera.service.IVacanteService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
+
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 @Controller
 @RequestMapping("/vacantes")
@@ -15,6 +20,19 @@ public class VacantesController {
     private IVacanteService serviceVacante;
 
     @PostMapping("/save")
+    public String guardar(Vacante vacante){
+        serviceVacante.guardar(vacante);
+        System.out.println(vacante);
+        return "vacantes/listVacantes";
+    }
+
+    @InitBinder // para controlar como se envia la fecha
+    public void initBinder(WebDataBinder wdb){
+        SimpleDateFormat df = new SimpleDateFormat("dd-MM-yyyy");
+        wdb.registerCustomEditor(Date.class, new CustomDateEditor(df, false));
+    }
+
+    /*@PostMapping("/save")
     public String guardar(
             @RequestParam("nombre") String nombre,
             @RequestParam("descripcion") String descripcion,
@@ -33,7 +51,8 @@ public class VacantesController {
         System.out.println("detalles = " + detalles);
 
         return "vacantes/listVacantes";
-    }
+    }*/
+
     @GetMapping("/create")
     public String crear(){
         return "vacantes/formVacante";

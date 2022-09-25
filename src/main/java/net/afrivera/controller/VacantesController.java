@@ -6,8 +6,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -29,10 +32,18 @@ public class VacantesController {
     }
 
     @PostMapping("/save")
-    public String guardar(Vacante vacante){
+    public String guardar(Vacante vacante, BindingResult result, RedirectAttributes attributes){
+        if(result.hasErrors()){
+            for(ObjectError error: result.getAllErrors()){
+                System.out.println("ocurrió un error: " + error.getDefaultMessage());
+            }
+            return "vacantes/formVacante";
+        }
         serviceVacantes.guardar(vacante);
+        // el flashAttribute para cuando se redirecciona o otra pagina pero se envía info
+        attributes.addFlashAttribute("msg", "Registro Guardado");
         System.out.println(vacante);
-        return "vacantes/listVacantes";
+        return "redirect:/vacantes/index";
     }
 
     @InitBinder // para controlar como se envia la fecha
@@ -63,7 +74,7 @@ public class VacantesController {
     }*/
 
     @GetMapping("/create")
-    public String crear(){
+    public String crear(Vacante vacante){
         return "vacantes/formVacante";
     }
     @GetMapping("/delete")

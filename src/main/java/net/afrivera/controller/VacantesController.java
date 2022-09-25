@@ -11,17 +11,26 @@ import org.springframework.web.bind.annotation.*;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 
 @Controller
 @RequestMapping("/vacantes")
 public class VacantesController {
 
     @Autowired
-    private IVacanteService serviceVacante;
+    private IVacanteService serviceVacantes;
+
+
+    @GetMapping("/index")
+    private String mostrarIndex(Model model){
+        List<Vacante> lista = serviceVacantes.buscarTodas();
+        model.addAttribute("vacantes", lista);
+        return "/vacantes/listVacantes";
+    }
 
     @PostMapping("/save")
     public String guardar(Vacante vacante){
-        serviceVacante.guardar(vacante);
+        serviceVacantes.guardar(vacante);
         System.out.println(vacante);
         return "vacantes/listVacantes";
     }
@@ -66,7 +75,7 @@ public class VacantesController {
 
     @GetMapping("/view/{id}")
     public String verDetalle(@PathVariable("id") int idVacante, Model model){
-        Vacante vacante = serviceVacante.buscarPorId(idVacante);
+        Vacante vacante = serviceVacantes.buscarPorId(idVacante);
         model.addAttribute("vacante", vacante);
         System.out.println("vacante: " + vacante);
         //TODO: Buscar los detalles de la vacante en la bd

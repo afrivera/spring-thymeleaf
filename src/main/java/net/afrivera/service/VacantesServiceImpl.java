@@ -25,6 +25,7 @@ public class VacantesServiceImpl implements IVacanteService{
             v1.setSalario(14500.0);
             v1.setFecha(sdf.parse("08-02-2019"));
             v1.setDestacado(1);
+            v1.setEstatus("Creada");
             v1.setImagen("empresa1.png");
 
             Vacante v2 = new Vacante();
@@ -34,6 +35,7 @@ public class VacantesServiceImpl implements IVacanteService{
             v2.setSalario(12000.0);
             v2.setFecha(sdf.parse("09-02-2019"));
             v2.setDestacado(0);
+            v2.setEstatus("Aprobada");
             v2.setImagen("empresa2.png");
 
             Vacante v3 = new Vacante();
@@ -42,6 +44,7 @@ public class VacantesServiceImpl implements IVacanteService{
             v3.setDescripcion("empresa Internacional solicita ingeniero mecánico para mantenimiento de la instalación eléctrica");
             v3.setSalario(10500.0);
             v3.setFecha(sdf.parse("10-02-2019"));
+            v3.setEstatus("Eliminada");
             v3.setDestacado(0);
 
             Vacante v4 = new Vacante();
@@ -51,6 +54,7 @@ public class VacantesServiceImpl implements IVacanteService{
             v4.setSalario(7500.0);
             v4.setFecha(sdf.parse("11-02-2019"));
             v4.setDestacado(1);
+            v4.setEstatus("Creada");
             v4.setImagen("empresa3.png");
 
             lista.add(v1);

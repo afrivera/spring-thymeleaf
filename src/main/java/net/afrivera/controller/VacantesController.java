@@ -1,6 +1,8 @@
 package net.afrivera.controller;
 
+import net.afrivera.model.Categoria;
 import net.afrivera.model.Vacante;
+import net.afrivera.service.ICategoriasService;
 import net.afrivera.service.IVacanteService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
@@ -22,6 +24,9 @@ public class VacantesController {
 
     @Autowired
     private IVacanteService serviceVacantes;
+
+    @Autowired
+    private ICategoriasService serviceCategorias;
 
 
     @GetMapping("/index")
@@ -74,7 +79,9 @@ public class VacantesController {
     }*/
 
     @GetMapping("/create")
-    public String crear(Vacante vacante){
+    public String crear(Vacante vacante, Model model){
+        List<Categoria> lista = serviceCategorias.buscarTodas();
+        model.addAttribute("categorias", lista);
         return "vacantes/formVacante";
     }
     @GetMapping("/delete")

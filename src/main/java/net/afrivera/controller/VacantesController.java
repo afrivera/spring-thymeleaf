@@ -6,6 +6,7 @@ import net.afrivera.service.ICategoriasService;
 import net.afrivera.service.IVacanteService;
 import net.afrivera.util.Utileria;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -23,6 +24,10 @@ import java.util.List;
 @Controller
 @RequestMapping("/vacantes")
 public class VacantesController {
+
+    // para inyectar una variable de entorno de nuestra app
+    @Value("${empleosapp.ruta.img}")
+    private String ruta;
 
     @Autowired
     private IVacanteService serviceVacantes;
@@ -50,7 +55,7 @@ public class VacantesController {
         // if para validar la imagen
         if(!multipart.isEmpty()){
             // String ruta = "/empleos/img-vacantes"; // linux - mac
-            String ruta = "c:/empleos/img-vacantes/"; // windows
+            // String ruta = "c:/empleos/img-vacantes/"; // windows
             String nombreImagen = Utileria.guardarArchivo(multipart, ruta);
             if (nombreImagen != null) { // la imagen si se subio
                 // procesamos la variable nombreImagen

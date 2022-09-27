@@ -4,6 +4,7 @@ import net.afrivera.model.Categoria;
 import net.afrivera.model.Vacante;
 import net.afrivera.service.ICategoriasService;
 import net.afrivera.service.IVacanteService;
+import net.afrivera.util.Utileria;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.stereotype.Controller;
@@ -12,6 +13,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.text.SimpleDateFormat;
@@ -37,12 +39,23 @@ public class VacantesController {
     }
 
     @PostMapping("/save")
-    public String guardar(Vacante vacante, BindingResult result, RedirectAttributes attributes){
+    public String guardar(Vacante vacante, BindingResult result, RedirectAttributes attributes, @RequestParam("archivoImagen") MultipartFile multipart){
         if(result.hasErrors()){
             for(ObjectError error: result.getAllErrors()){
                 System.out.println("ocurrió un error: " + error.getDefaultMessage());
             }
             return "vacantes/formVacante";
+        }
+
+        // if para validar la imagen
+        if(!multipart.isEmpty()){
+            // String ruta = "/empleos/img-vacantes"; // linux - mac
+            String ruta = "c:/empleos/img-vacantes/"; // windows
+            String nombreImagen = Utileria.guardarArchivo(multipart, ruta);
+            if (nombreImagen != null) { // la imagen si se subio
+                // procesamos la variable nombreImagen
+                vacante.setImagen(nombreImagen);
+            }
         }
         serviceVacantes.guardar(vacante);
         // el flashAttribute para cuando se redirecciona o otra pagina pero se envía info
